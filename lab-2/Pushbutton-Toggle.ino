@@ -41,17 +41,17 @@ void setup() {
 }
 
 void loop() {
-  // set the previous state to the previous button state
-  prevButtonState = buttonState;
   // read the new state of the button
   buttonState = digitalRead(buttonPin);
 
   // if waited long enought for 'debouncing'
+  // ie. the difference in the last time the state was changed
+  //     to the current time is greater than the defined duration
   if((millis() - prevTime) > interval)
   {
-    // if the button wasn't already pressed,
-    // but it is now, pressed.
-    if (prevButtonState == LOW && buttonState == HIGH)
+    // if the button wasn't already pressed),
+    // but it is now:
+    if (!prevButtonState && buttonState)
     {
       // toggle the light
       lightState = !lightState;
@@ -61,4 +61,6 @@ void loop() {
       prevTime = millis();
     }
   }
+  // set the previous state variable to the previous button state
+  prevButtonState = buttonState;
 }

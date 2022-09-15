@@ -1,0 +1,14 @@
+#+title: Instructions
+
+1. Start the Arduino IDE and examine the IDE.
+2. Checkout an Arduino.
+3. DO NOT use a blue USB connection (Its USB 3 and not compatible).
+4. Make sure the Mega 2560 and the correct com port is selected using the Tools menu.
+5. Run Blink for the built-in LED.
+6. Get parts for Blink external LED example.
+7. Run Blink for an external LED.
+8. Run BlinkWithoutDelay.
+9. Run Fade (will need to modify hardware setup).
+10. Modify Fade to not use Delay and instead use millis() with an interval as in BlinkWithoutDelay.
+11. Demo the project in lab to the instructor.
+12.  Turn in your code for your Fade_Without_Delay.

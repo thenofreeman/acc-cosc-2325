@@ -49,8 +49,8 @@ void loop() {
   // if waited long enought for 'debouncing'
   if((millis() - prevTime) > interval)
   {
-    // if the button is pressed
-    // and was previously not pressed
+    // if the button wasn't already pressed,
+    // but it is now, pressed.
     if (prevButtonState == LOW && buttonState == HIGH)
     {
       // toggle the light

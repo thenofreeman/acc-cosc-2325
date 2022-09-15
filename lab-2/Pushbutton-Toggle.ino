@@ -27,7 +27,8 @@
 const int buttonPin = 2,
           ledPin    = 13;
 
-// variables will change:
+// exmple sets these to ints
+// but they behave a boolean values
 int buttonState     = 0,
     prevButtonState = 0,
     lightState      = 0;
@@ -54,8 +55,7 @@ void loop() {
     if (!prevButtonState && buttonState)
     {
       // toggle the light
-      lightState = !lightState;
-      digitalWrite(ledPin, lightState);
+      digitalWrite(ledPin, lightState = !lightState);
 
       // get the new time after toggle
       prevTime = millis();

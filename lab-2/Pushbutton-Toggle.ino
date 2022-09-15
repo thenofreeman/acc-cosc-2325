@@ -24,38 +24,41 @@
  http://www.arduino.cc/en/Tutorial/Button
  */
 
-// constants won't change. They're used here to
-// set pin numbers:
-const int buttonPin = 2;     // the number of the pushbutton pin
-const int ledPin =  13;      // the number of the LED pin
+const int buttonPin = 2,
+          ledPin    = 13;
 
 // variables will change:
-int buttonState = 0;         // variable for reading the pushbutton status
-int prevState = 0;
-int lightState = 0;
-unsigned long prevTime = 0;
-unsigned long interval = 0;
+int buttonState     = 0,
+    prevButtonState = 0,
+    lightState      = 0;
+
+unsigned long prevTime = 0,
+              interval = 0;
 
 void setup() {
-  // initialize the LED pin as an output:
   pinMode(ledPin, OUTPUT);
-  // initialize the pushbutton pin as an input:
   pinMode(buttonPin, INPUT);
 }
 
 void loop() {
-  // read the state of the pushbutton value:
-  prevState = buttonState;
+  // set the previous state to the previous button state
+  prevButtonState = buttonState;
+  // read the new state of the button
   buttonState = digitalRead(buttonPin);
 
-  if (prevState == HIGH && buttonState == LOW)
+  // if waited long enought for 'debouncing'
+  if((millis() - prevTime) > interval)
   {
-    if ((millis() - prevTime) > interval)
+    // if the button is pressed
+    // and was previously not pressed
+    if (prevButtonState == LOW && buttonState == HIGH)
     {
+      // toggle the light
       lightState = !lightState;
       digitalWrite(ledPin, lightState);
-    }
 
-    prevTime = millis();
+      // get the new time after toggle
+      prevTime = millis();
+    }
   }
 }

@@ -24,19 +24,37 @@
  http://www.arduino.cc/en/Tutorial/Button
  */
 
-const int buttonPin = 2,
-          ledPin    = 13;
+const int buttonPin       = 2,
+          ledPin          = 13,
+          numLightStates  = 4;
 
-int buttonState     = 0,
-    prevButtonState = 0,
-    lightState      = 0;
+int buttonState      = 0,
+    prevButtonState  = 0,
+    lightState       = 0;
 
-unsigned long prevTime = 0,
-              interval = 250UL;
+const int RED_PIN   = 9,
+          GREEN_PIN = 10,
+          BLUE_PIN  = 11;
+
+unsigned long prevTime = 0;
+const unsigned long interval = 250UL;
 
 void setup() {
-  pinMode(ledPin, OUTPUT);
+  pinMode(RED_PIN, OUTPUT);
+  pinMode(GREEN_PIN, OUTPUT);
+  pinMode(BLUE_PIN, OUTPUT);
   pinMode(buttonPin, INPUT);
+}
+
+// replaces 3 lines of digital writes with one
+// only works when global pin values are present
+void digitalWriteRGB (const int& rValue, 
+                      const int& gValue, 
+                      const int& bValue)
+{
+  digitalWrite(RED_PIN, rValue);
+  digitalWrite(GREEN_PIN, gValue);
+  digitalWrite(BLUE_PIN, bValue);
 }
 
 void loop() {
@@ -53,13 +71,30 @@ void loop() {
     if((millis() - prevTime) > interval)
     {
       // toggle the light
-      lightState = !lightState;
+      lightState = ++lightState % numLightStates;
 
       // get the new time after toggle
       prevTime = millis();
     }
     // write new light state to pin
-    digitalWrite(ledPin, lightState);
+    switch (lightState)
+    {
+      case 0: // red
+        digitalWriteRGB(HIGH, LOW, LOW);
+        break;
+      case 1: // green
+        digitalWriteRGB(LOW, HIGH, LOW);
+        break;
+      case 2: // blue
+        digitalWriteRGB(LOW, LOW, HIGH);
+        break;
+      case 3: // off
+        digitalWriteRGB(LOW, LOW, LOW);
+        break;
+      default:
+        digitalWriteRGB(LOW, LOW, LOW);
+        break;
+    }
   }
   // set the previous state variable to the previous button state
   prevButtonState = buttonState;
